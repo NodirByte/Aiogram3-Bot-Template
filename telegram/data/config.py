@@ -1,10 +1,9 @@
 from environs import Env
 
-# Using the .env file to store the sensitive data
+# environs kutubxonasidan foydalanish
 env = Env()
 env.read_env()
 
-# Read the values from the .env file
+# .env fayl ichidan quyidagilarni o'qiymiz
 BOT_TOKEN = env.str("BOT_TOKEN")  # Bot Token
-ADMINS = env.list("ADMINS")  # Admin LIst
-
+ADMINS = env.list("ADMINS")  # adminlar ro'yxati

@@ -9,6 +9,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
 
   web:
     build:
@@ -27,8 +29,9 @@ services:
       - .:/app
     depends_on:
       - db
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
+    command: ["sh", "-c", "python web/manage.py migrate && python web/manage.py runserver 0.0.0.0:8000"]
 
   telegram:
     build:
@@ -49,6 +52,15 @@ services:
     depends_on:
       - db
     command: ["python", "telegram/app.py"]
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
 
 volumes:
   postgres_data:

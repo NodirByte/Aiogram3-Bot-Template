@@ -14,10 +14,10 @@ class ThrottlingMiddleware(BaseMiddleware):
         user_id = event.from_user.id
         current_time = time.time()
         
-        # If the user is not in the user_timeouts dictionary, add him
+        # Ushbu foydalanuvchining so'nggi so'rovi bo'yicha yozuv mavjudligini tekshirish
         last_request_time = self.user_timeouts.get(user_id, 0)
         if current_time - last_request_time < self.slow_mode_delay:
-            # If the user is sending messages too fast, we can stop the handler
+            # Agar so'rovlar juda tez-tez bo'lsa, sekin rejimni yoqish
             await event.reply("You're sending messages too fast. Please wait a little bit.")
             return
         
